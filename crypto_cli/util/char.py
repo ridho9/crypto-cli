@@ -7,4 +7,4 @@ def lalpha_ord(c):
 
 
 def is_int_alpha(c):
-    return (ord("a") <= c <= ord("z")) or (ord("A") <= c <= ord(""))
+    return (ord("a") <= c <= ord("z")) or (ord("A") <= c <= ord("Z"))

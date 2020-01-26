@@ -1,3 +1,4 @@
+import click
 from crypto_cli.util.char import lalpha_ord, is_int_alpha
 
 
@@ -40,6 +41,16 @@ class VigenereChiper:
                 result.append(c)
 
         return bytes(result)
+
+    @staticmethod
+    @click.command("vigenere", help="Basic Vigenere Chiper")
+    @click.argument("key")
+    def command(key):
+        def processor(ctx):
+            ctx["chipers"].append(VigenereChiper(key.encode()))
+            return ctx
+
+        return processor
 
 
 if __name__ == "__main__":
