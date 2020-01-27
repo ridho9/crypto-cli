@@ -5,7 +5,14 @@ from crypto_cli.chiper import chiper_list
 
 
 @click.group(chain=True)
-def cli():
+@click.option(
+    "-r",
+    "--reverse",
+    is_flag=True,
+    default=False,
+    help="Reverse the order of the chipers",
+)
+def cli(reverse):
     """
     A basic crypto cli tools.
     """
@@ -27,7 +34,7 @@ for op in ["encode", "decode"]:
 
 
 @cli.resultcallback()
-def process_cli(processors):
+def process_cli(processors, reverse):
     ctx = {"chipers": []}
     for processor in processors:
         # print(processor)
@@ -40,6 +47,9 @@ def process_cli(processors):
     message = ctx["input"].read()
 
     # print(f"{message=}")
+    # print(f"{reverse=}")
+    if reverse:
+        ctx["chipers"].reverse()
 
     for chiper in ctx["chipers"]:
         if ctx["op"] == "encode":

@@ -33,7 +33,7 @@ class TranspositionChiper:
         if len(result) % self.k != 0:
             # pad message
             padlen = self.k - (len(result) % self.k)
-            print(f"{len(result)=} {len(result) % self.k=} {padlen=}")
+            # print(f"{len(result)=} {len(result) % self.k=} {padlen=}")
             for x in range(padlen):
                 c = (x % 26) + ord("a")
                 result.append(c)
