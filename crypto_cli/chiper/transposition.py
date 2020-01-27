@@ -8,7 +8,7 @@ class TranspositionChiper:
         self.k = k
 
     def encode(self, plain: bytes):
-        plain = bytes([x for x in plain if is_int_alpha(x)])
+        plain = self.prepare_input(plain)
         result = []
 
         for i in range(self.k):
@@ -17,12 +17,26 @@ class TranspositionChiper:
         return bytes(result)
 
     def decode(self, chiper: bytes):
-        chiper = bytes([x for x in chiper if is_int_alpha(x)])
-        kx = ceil(len(chiper) / self.k)
+        chiper = self.prepare_input(chiper)
+        kx = len(chiper) // self.k
         result = []
 
         for i in range(kx):
             result += chiper[i::kx]
+
+        return bytes(result)
+
+    def prepare_input(self, input: bytes):
+        input = input.strip().lower()
+        result = [x for x in input if is_int_alpha(x)]
+
+        if len(result) % self.k != 0:
+            # pad message
+            padlen = self.k - (len(result) % self.k)
+            print(f"{len(result)=} {len(result) % self.k=} {padlen=}")
+            for x in range(padlen):
+                c = (x % 26) + ord("a")
+                result.append(c)
 
         return bytes(result)
 
@@ -38,7 +52,7 @@ class TranspositionChiper:
 
 
 if __name__ == "__main__":
-    chiper = TranspositionChiper(6)
+    chiper = TranspositionChiper(4)
 
     plain = b"departemen teknik informatika itb"
     chipertext = chiper.encode(plain)
