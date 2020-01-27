@@ -1,8 +1,19 @@
+import click
 from crypto_cli.chiper.vigenere import VigenereChiper
 
 
 class RunningKeyVigenereChiper(VigenereChiper):
-    pass
+    @staticmethod
+    @click.command("running_vigenere", help="Running-Key Vigenere Chiper")
+    @click.argument("square", type=click.File("rb", lazy=True))
+    @click.argument("key", type=click.STRING)
+    def command(square, key):
+        def processor(ctx):
+            chiper = RunningKeyVigenereChiper(square.readlines(), key.encode())
+            ctx["chipers"].append(chiper)
+            return ctx
+
+        return processor
 
 
 if __name__ == "__main__":

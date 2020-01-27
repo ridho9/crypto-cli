@@ -1,3 +1,4 @@
+import click
 from crypto_cli.util.char import is_int_alpha, lalpha_ord
 
 
@@ -96,6 +97,17 @@ class PlayfairChiper:
         a_idx = b_idx + 1
 
         return a_idx, b_idx, lalpha_ord(a), lalpha_ord(b)
+
+    @staticmethod
+    @click.command("playfair", help="Playfair Chiper")
+    @click.argument("key", type=click.File("rb", lazy=True))
+    def command(key):
+        def processor(ctx):
+            chiper = PlayfairChiper(key.readlines())
+            ctx["chipers"].append(chiper)
+            return ctx
+
+        return processor
 
 
 if __name__ == "__main__":

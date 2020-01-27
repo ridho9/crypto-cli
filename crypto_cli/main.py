@@ -55,5 +55,10 @@ def process_cli(processors):
 for chiper in chiper_list:
     cli.add_command(chiper.command)
 
-if __name__ == "__main__":
+
+def main():
     cli()
+
+
+if __name__ == "__main__":
+    main()

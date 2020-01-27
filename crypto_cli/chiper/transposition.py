@@ -1,3 +1,4 @@
+import click
 from math import ceil
 from crypto_cli.util.char import is_int_alpha
 
@@ -24,6 +25,16 @@ class TranspositionChiper:
             result += chiper[i::kx]
 
         return bytes(result)
+
+    @staticmethod
+    @click.command("transposition", help="Transposition Chiper")
+    @click.argument("key", type=int)
+    def command(key):
+        def processor(ctx):
+            ctx["chipers"].append(TranspositionChiper(key))
+            return ctx
+
+        return processor
 
 
 if __name__ == "__main__":
